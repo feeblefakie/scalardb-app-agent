@@ -1,4 +1,4 @@
-# Cluster + JDBC/SQL + One-Phase Commit
+# Cluster + JDBC/SQL + Standard Interface
 
 Standard SQL interface via ScalarDB Cluster with JDBC driver.
 

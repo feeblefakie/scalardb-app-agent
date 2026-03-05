@@ -1,4 +1,4 @@
-# Cluster + CRUD API + One-Phase Commit
+# Cluster + CRUD API + Standard Interface
 
 Production deployment using ScalarDB Cluster with the native CRUD API.
 
@@ -83,7 +83,7 @@ scalar.db.contact_points=indirect:localhost
 
 ## Service Class
 
-The code is **identical** to Core+CRUD+1PC. The only difference is the configuration file:
+The code is **identical** to the Core+CRUD standard interface pattern. The only difference is the configuration file:
 
 ```java
 package sample;

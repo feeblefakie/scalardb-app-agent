@@ -30,7 +30,7 @@ scalar.db.sql.connection_mode=cluster
 scalar.db.sql.cluster_mode.contact_points=indirect:localhost
 ```
 
-## Service Class (Coordinator — SQL 2PC)
+## Service Class (Coordinator — SQL 2PC I/F)
 
 In JDBC/SQL mode, two-phase commit is managed via SQL transaction control statements:
 
@@ -56,7 +56,7 @@ public class OrderService {
   }
 
   /**
-   * Place an order using SQL 2PC.
+   * Place an order using SQL 2PC I/F.
    * The SQL interface supports PREPARE, VALIDATE, and COMMIT statements.
    */
   public String placeOrder(int customerId, int itemId, int count) throws SQLException {
@@ -83,7 +83,7 @@ public class OrderService {
           ps.executeUpdate();
         }
 
-        // For 2PC with remote participant, you would:
+        // For 2PC I/F with remote participant, you would:
         // 1. Send transaction ID to participant service
         // 2. Participant does its work (joins via its own connection)
         // 3. Coordinator executes PREPARE, VALIDATE, COMMIT via SQL
@@ -130,17 +130,17 @@ VALIDATE;
 COMMIT;
 ```
 
-## Key Notes for JDBC 2PC
+## Key Notes for JDBC 2PC I/F
 
-1. **SQL 2PC** uses `PREPARE`, `VALIDATE`, `COMMIT` SQL statements
-2. **Same connection routing**: All statements in a 2PC transaction must go to the same ScalarDB Cluster node
+1. **SQL 2PC I/F** uses `PREPARE`, `VALIDATE`, `COMMIT` SQL statements
+2. **Same connection routing**: All statements in a 2PC I/F transaction must go to the same ScalarDB Cluster node
 3. **Session affinity**: Required when using L7 load balancers
 4. **Participant coordination**: Still requires RPC between services to coordinate the 2PC protocol
 5. **VALIDATE** is only needed for `SERIALIZABLE` isolation with `EXTRA_READ` strategy
 
-## Comparison with CRUD 2PC
+## Comparison with CRUD 2PC I/F
 
-| Aspect | CRUD 2PC | JDBC 2PC |
+| Aspect | CRUD 2PC I/F | JDBC 2PC I/F |
 |--------|---------|---------|
 | Prepare | `tx.prepare()` | `stmt.execute("PREPARE")` |
 | Validate | `tx.validate()` | `stmt.execute("VALIDATE")` |

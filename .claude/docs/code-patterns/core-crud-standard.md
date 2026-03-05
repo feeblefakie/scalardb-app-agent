@@ -1,6 +1,6 @@
-# Core + CRUD API + One-Phase Commit
+# Core + CRUD API + Standard Interface
 
-The most common pattern for development and single-database applications.
+The most common pattern for development. Works with single or multiple databases.
 
 ## build.gradle
 

@@ -316,7 +316,7 @@ networks:
     name: sample-network
 ```
 
-## Key 2PC Rules
+## Key 2PC I/F Rules
 
 1. **Coordinator** calls `begin()`, participants call `join(txId)`
 2. **All** participants must be prepared before committing
@@ -324,4 +324,4 @@ networks:
 4. If **any** commit succeeds, the transaction is considered committed
 5. `validate()` is only needed for `SERIALIZABLE` isolation with `EXTRA_READ` strategy
 6. Use different transaction IDs on retry (never reuse)
-7. Group commit cannot be used with 2PC
+7. Group commit cannot be used with the 2PC I/F

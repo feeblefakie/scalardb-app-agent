@@ -193,7 +193,7 @@ public class CustomerService implements Closeable {
     // Don't commit — coordinator drives the 2PC protocol
   }
 
-  // 2PC lifecycle methods (called by coordinator via gRPC)
+  // 2PC I/F lifecycle methods (called by coordinator via gRPC)
   public void prepare(String txId) throws TransactionException {
     TwoPhaseCommitTransaction tx = manager.resume(txId);
     tx.prepare();
@@ -221,19 +221,19 @@ public class CustomerService implements Closeable {
 }
 ```
 
-## Key Differences from Core+CRUD+2PC
+## Key Differences from Core+CRUD+2PC-I/F
 
-| Aspect | Core+CRUD+2PC | Cluster+CRUD+2PC |
+| Aspect | Core+CRUD+2PC-I/F | Cluster+CRUD+2PC-I/F |
 |--------|--------------|------------------|
 | Maven artifact | `scalardb` | `scalardb-cluster-java-client-sdk` |
 | Config | `scalar.db.storage=<backend>` | `scalar.db.transaction_manager=cluster` |
 | DB access | Direct | Via ScalarDB Cluster |
 | Auth/TLS | N/A | Supported |
-| Java 2PC code | Identical | Identical |
+| Java 2PC I/F code | Identical | Identical |
 
-## 2PC Request Routing
+## 2PC I/F Request Routing
 
-For 2PC transactions, requests must route to the same ScalarDB Cluster node:
+For 2PC I/F transactions, requests must route to the same ScalarDB Cluster node:
 - **gRPC (same connection)**: Automatically routes correctly
 - **L7 load balancer**: Must use session affinity
 - **Direct-Kubernetes mode**: Client handles routing via consistent hashing
