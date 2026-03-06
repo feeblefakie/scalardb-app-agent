@@ -17,7 +17,7 @@ Ask: "Which database backend(s) do you need?"
 - PostgreSQL
 - Cassandra
 - DynamoDB Local
-- Multiple (for multi-storage or 2PC testing)
+- Multiple (for multi-storage or 2PC I/F testing)
 
 ### Step 2: Generate Files
 

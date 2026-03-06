@@ -74,15 +74,15 @@ If not using this combination, `validate()` can be skipped.
 
 ## Don't Reuse Transaction IDs
 
-When retrying a failed 2PC transaction, use a NEW transaction ID (call `begin()` again, not `begin(oldTxId)`).
+When retrying a failed 2PC I/F transaction, use a NEW transaction ID (call `begin()` again, not `begin(oldTxId)`).
 
 ## Group Commit Incompatibility
 
-Group commit (`scalar.db.consensus_commit.coordinator.group_commit.enabled=true`) CANNOT be used with the 2PC interface.
+Group commit (`scalar.db.consensus_commit.coordinator.group_commit.enabled=true`) CANNOT be used with the 2PC I/F.
 
 ## Request Routing
 
-All operations in a 2PC transaction MUST route to the same ScalarDB Cluster node:
+All operations in a 2PC I/F transaction MUST route to the same ScalarDB Cluster node:
 - Use gRPC with same connection (automatic)
 - With L7 load balancer: use session affinity
 - With `direct-kubernetes` mode: handled automatically via consistent hashing
@@ -103,9 +103,9 @@ Each of these endpoints calls `resume(txId)` then the corresponding operation.
 
 ## JDBC/SQL Two-Phase Commit
 
-When using the JDBC/SQL interface, 2PC is managed via SQL transaction control statements instead of Java method calls.
+When using the JDBC/SQL interface, the 2PC I/F is managed via SQL transaction control statements instead of Java method calls.
 
-### SQL 2PC Statements
+### SQL 2PC I/F Statements
 
 ```sql
 BEGIN;                -- or START TRANSACTION;
@@ -117,7 +117,7 @@ COMMIT;               -- Final commit
 ROLLBACK;             -- or ABORT;
 ```
 
-### JDBC 2PC Java Code Pattern
+### JDBC 2PC I/F Java Code Pattern
 
 ```java
 try (Connection conn = getConnection()) {
@@ -149,9 +149,9 @@ try (Connection conn = getConnection()) {
 }
 ```
 
-### CRUD 2PC vs JDBC 2PC Mapping
+### CRUD 2PC I/F vs JDBC 2PC I/F Mapping
 
-| CRUD 2PC | JDBC 2PC |
+| CRUD 2PC I/F | JDBC 2PC I/F |
 |----------|----------|
 | `manager.begin()` | `conn.setAutoCommit(false)` (implicit begin) |
 | `tx.prepare()` | `stmt.execute("PREPARE")` |
@@ -161,8 +161,8 @@ try (Connection conn = getConnection()) {
 | `tx.getId()` | Managed internally by the connection |
 | `manager.join(txId)` | Via SQL session (connection-based) |
 
-### JDBC 2PC Limitations
+### JDBC 2PC I/F Limitations
 
 - Transaction ID is managed internally by the connection — you cannot directly access it like `tx.getId()`
 - Participant coordination between microservices still requires an RPC mechanism (gRPC, REST)
-- All statements in a 2PC transaction MUST route to the same ScalarDB Cluster node (use session affinity with L7 load balancers)
+- All statements in a 2PC I/F transaction MUST route to the same ScalarDB Cluster node (use session affinity with L7 load balancers)

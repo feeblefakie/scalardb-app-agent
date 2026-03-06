@@ -23,10 +23,12 @@ Ask: "Which API style?"
 
 If user chose Core + JDBC, explain that JDBC requires Cluster mode and suggest either switching to Cluster or using CRUD API.
 
-### Step 3: Transaction Mode
-Ask: "Which transaction mode?"
-- **One-phase commit (1PC)** — Single database, standard transactions
-- **Two-phase commit (2PC)** — Multiple databases/services, distributed transactions
+### Step 3: Transaction Interface
+Ask: "Which transaction interface?"
+- **Standard interface** — Single `commit()` call; works with multiple databases
+- **Two-phase commit interface (2PC I/F)** — Fine-grained `prepare()` + `commit()` for microservice coordination; also works with multiple databases
+
+Note: ScalarDB internally uses two-phase commit regardless of interface choice. The "standard interface" exposes only commit(), while the "2PC I/F" exposes prepare() + commit() for microservice coordination.
 
 ### Step 4: Database Backend
 Ask: "Which database backend?"

@@ -5,7 +5,7 @@ This project provides a Claude Code development agent for building applications 
 ## What This Agent Provides
 
 - **Skills** (interactive slash commands): `/scalardb-model`, `/scalardb-config`, `/scalardb-scaffold`, `/scalardb-error-handler`, `/scalardb-local-env`, `/scalardb-crud-ops`, `/scalardb-jdbc-ops`, `/scalardb-docs`
-- **Rules** (always-on passive guidance): Exception handling, CRUD patterns, JDBC patterns, 2PC patterns, config validation, schema design, Java best practices
+- **Rules** (always-on passive guidance): Exception handling, CRUD patterns, JDBC patterns, 2PC I/F patterns, config validation, schema design, Java best practices
 - **Sub-agents** (specialized autonomous workers): Code reviewer, app builder, migration advisor
 
 ## Reference Documentation
@@ -25,8 +25,8 @@ ScalarDB provides ACID transactions across diverse databases. Key concepts:
 
 - **Interface styles**: CRUD API (Java native) or JDBC/SQL (standard SQL)
 - **Deployment modes**: Core (direct DB connection) or Cluster (via ScalarDB Cluster)
-- **Transaction modes**: One-phase commit (single DB) or Two-phase commit (multiple DBs/services)
-- **6 interface combinations**: Core+CRUD+1PC, Core+CRUD+2PC, Cluster+CRUD+1PC, Cluster+CRUD+2PC, Cluster+JDBC+1PC, Cluster+JDBC+2PC
+- **Transaction interfaces**: Standard interface (single `commit()`) or Two-phase commit interface (`prepare()` + `commit()` for microservice coordination). Both work with multiple databases. ScalarDB internally uses two-phase commit regardless; the distinction is only about the interface exposed to the application.
+- **6 interface combinations**: Core+CRUD+Standard, Core+CRUD+2PC-I/F, Cluster+CRUD+Standard, Cluster+CRUD+2PC-I/F, Cluster+JDBC+Standard, Cluster+JDBC+2PC-I/F
 
 ## Key Source Code Locations
 

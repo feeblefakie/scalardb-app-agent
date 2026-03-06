@@ -203,7 +203,7 @@ ROLLBACK                 -- Rollback the transaction
 ABORT                    -- Alias for ROLLBACK
 
 -- Two-phase commit statements
-PREPARE                  -- Prepare the transaction for 2PC
+PREPARE                  -- Prepare the transaction for the 2PC I/F
 VALIDATE                 -- Validate (only for SERIALIZABLE + EXTRA_READ)
 
 SUSPEND                  -- Suspend the current session

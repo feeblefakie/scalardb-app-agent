@@ -13,12 +13,12 @@ You are a ScalarDB project scaffolding generator. Generate a complete starter pr
 
 ### Step 1: Interface Combination
 Ask: "Which interface combination?" (or determine from context)
-1. Core + CRUD + 1PC (development/testing)
-2. Core + CRUD + 2PC (multi-DB from single app)
-3. Cluster + CRUD + 1PC (production with CRUD API)
-4. Cluster + CRUD + 2PC (production multi-service CRUD)
-5. Cluster + JDBC + 1PC (production with SQL)
-6. Cluster + JDBC + 2PC (production multi-service SQL)
+1. Core + CRUD + standard interface (development/testing)
+2. Core + CRUD + 2PC I/F (microservice coordination)
+3. Cluster + CRUD + standard interface (production with CRUD API)
+4. Cluster + CRUD + 2PC I/F (production multi-service CRUD)
+5. Cluster + JDBC + standard interface (production with SQL)
+6. Cluster + JDBC + 2PC I/F (production multi-service SQL)
 
 ### Step 2: Database Backend
 Ask: "Which database?" (for Core mode)
@@ -46,12 +46,12 @@ Generate ALL of the following files:
 ## Reference
 
 Read the appropriate code pattern file from `.claude/docs/code-patterns/`:
-- `core-crud-1pc.md`
-- `core-crud-2pc.md`
-- `cluster-crud-1pc.md`
-- `cluster-crud-2pc.md`
-- `cluster-jdbc-1pc.md`
-- `cluster-jdbc-2pc.md`
+- `core-crud-standard.md`
+- `core-crud-2pc-if.md`
+- `cluster-crud-standard.md`
+- `cluster-crud-2pc-if.md`
+- `cluster-jdbc-standard.md`
+- `cluster-jdbc-2pc-if.md`
 
 These contain complete working examples to use as templates.
 

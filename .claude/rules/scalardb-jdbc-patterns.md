@@ -197,7 +197,7 @@ Only `COUNT` supports `*`. All other aggregates require a column name.
 - JOIN predicates must reference primary key or secondary index columns
 - WHERE clause must be in disjunctive normal form (OR of ANDs) or conjunctive normal form (AND of ORs)
 
-## 2PC via SQL Statements
+## 2PC I/F via SQL Statements
 
 For two-phase commit in JDBC, use SQL transaction control statements:
 
@@ -211,4 +211,4 @@ try (Statement stmt = conn.createStatement()) {
 conn.commit();
 ```
 
-See the 2PC patterns rule for complete details.
+See the 2PC I/F patterns rule for complete details.

@@ -22,7 +22,7 @@ Options:
 - **DELETE** — Delete records
 - **JOIN** — Query across multiple tables (INNER, LEFT, RIGHT)
 - **Aggregates** — COUNT, SUM, AVG, MIN, MAX with GROUP BY/HAVING
-- **2PC** — Two-phase commit via SQL statements (PREPARE, VALIDATE, COMMIT)
+- **2PC I/F** — Two-phase commit interface via SQL statements (PREPARE, VALIDATE, COMMIT)
 - **Exception handling** — Correct JDBC exception handling pattern
 
 ### Step 2: Gather context
@@ -198,7 +198,7 @@ ps.setObject(1, Instant.now());
 Instant tstz = rs.getObject("col", Instant.class);
 ```
 
-### 2PC via SQL
+### 2PC I/F via SQL
 ```java
 // After SQL operations, before conn.commit():
 try (Statement stmt = conn.createStatement()) {

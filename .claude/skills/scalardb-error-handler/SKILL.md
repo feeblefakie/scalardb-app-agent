@@ -13,8 +13,8 @@ You are a ScalarDB exception handling expert. You can either generate correct ex
 
 ### Mode 1: Generate Exception Handling Code
 Ask: "Which interface combination are you using?"
-- CRUD API + 1PC (DistributedTransactionManager)
-- CRUD API + 2PC (TwoPhaseCommitTransactionManager)
+- CRUD API + standard interface (DistributedTransactionManager)
+- CRUD API + 2PC I/F (TwoPhaseCommitTransactionManager)
 - JDBC/SQL
 
 Then generate the complete try/catch pattern with:
@@ -46,9 +46,9 @@ TransactionException
 │   └── UnsatisfiedConditionException  ← NOT retryable
 ├── CommitException
 │   └── CommitConflictException        ← RETRYABLE
-├── PreparationException               (2PC only)
+├── PreparationException               (2PC I/F only)
 │   └── PreparationConflictException   ← RETRYABLE
-├── ValidationException                (2PC only)
+├── ValidationException                (2PC I/F only)
 │   └── ValidationConflictException    ← RETRYABLE
 ├── UnknownTransactionStatusException  ← SPECIAL (don't retry blindly)
 ├── TransactionNotFoundException       ← RETRYABLE
@@ -56,7 +56,7 @@ TransactionException
 └── AbortException
 ```
 
-## Correct Pattern: CRUD API + 1PC
+## Correct Pattern: CRUD API + Standard Interface
 
 ```java
 private static final int MAX_RETRIES = 3;
@@ -102,7 +102,7 @@ public void executeWithRetry() throws TransactionException, InterruptedException
 }
 ```
 
-## Correct Pattern: CRUD API + 2PC
+## Correct Pattern: CRUD API + 2PC I/F
 
 ```java
 public void executeTwoPhaseCommitWithRetry() throws TransactionException, InterruptedException {
@@ -137,7 +137,7 @@ public void executeTwoPhaseCommitWithRetry() throws TransactionException, Interr
 }
 ```
 
-## Correct Pattern: JDBC/SQL (1PC)
+## Correct Pattern: JDBC/SQL (Standard Interface)
 
 ```java
 public void executeJdbcWithRetry() throws SQLException, InterruptedException {
@@ -179,7 +179,7 @@ public void executeJdbcWithRetry() throws SQLException, InterruptedException {
 }
 ```
 
-## Correct Pattern: JDBC/SQL (2PC)
+## Correct Pattern: JDBC/SQL (2PC I/F)
 
 ```java
 public void executeJdbc2pcWithRetry() throws SQLException, InterruptedException {
@@ -210,11 +210,11 @@ public void executeJdbc2pcWithRetry() throws SQLException, InterruptedException 
                 return; // success
             } catch (SQLException e) {
                 if (e.getErrorCode() == 301) {
-                    logger.error("Unknown transaction status in 2PC", e);
+                    logger.error("Unknown transaction status in 2PC I/F", e);
                     throw e;
                 }
                 conn.rollback();
-                logger.warn("JDBC 2PC transaction failed, retrying: {}", e.getMessage(), e);
+                logger.warn("JDBC 2PC I/F transaction failed, retrying: {}", e.getMessage(), e);
                 lastException = e;
             }
         } catch (SQLException e) {

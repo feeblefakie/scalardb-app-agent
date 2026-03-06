@@ -175,12 +175,12 @@ private Connection getConnection() throws SQLException {
 }
 ```
 
-### Get a New Connection Per Transaction
+### Don't Share Connections Across Threads
 
-JDBC connections should not be shared across threads. Get a new connection per transaction:
+JDBC connections are not thread-safe. Each thread should use its own connection. You can reuse a connection for sequential transactions on the same thread.
 
 ```java
-// CORRECT — one connection per transaction:
+// CORRECT — each thread uses its own connection:
 public void doWork() throws SQLException {
     try (Connection conn = getConnection()) {
         // ... operations ...

@@ -10,10 +10,10 @@ java.lang.Exception
         │     └── UnsatisfiedConditionException      [mutation condition not met]
         ├── CommitException                          [commit failure]
         │     └── CommitConflictException             [commit conflict — RETRYABLE]
-        ├── PreparationException                     [2PC prepare failure]
-        │     └── PreparationConflictException        [2PC prepare conflict — RETRYABLE]
-        ├── ValidationException                      [2PC validate failure]
-        │     └── ValidationConflictException         [2PC validate conflict — RETRYABLE]
+        ├── PreparationException                     [2PC I/F prepare failure]
+        │     └── PreparationConflictException        [2PC I/F prepare conflict — RETRYABLE]
+        ├── ValidationException                      [2PC I/F validate failure]
+        │     └── ValidationConflictException         [2PC I/F validate conflict — RETRYABLE]
         ├── RollbackException                        [rollback failure]
         ├── AbortException                           [abort failure]
         ├── UnknownTransactionStatusException        [commit status unknown — SPECIAL]
@@ -139,7 +139,7 @@ while (true) {
 
 ## Two-Phase Commit Exception Handling
 
-For 2PC, additional exceptions occur during `prepare()` and `validate()`:
+For the 2PC I/F, additional exceptions occur during `prepare()` and `validate()`:
 
 ```java
 TwoPhaseCommitTransaction tx = null;
